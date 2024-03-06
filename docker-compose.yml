@@ -1,0 +1,15 @@
+# docker compose up -D
+# docker compose stop
+# docker compose down //Para de executar e apaga o container
+
+version: '3'
+
+services:
+  api-solid-gym-pg:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apisolidgym
