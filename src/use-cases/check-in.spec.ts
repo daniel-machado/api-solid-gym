@@ -19,8 +19,8 @@ describe('Check-in Use Case', () => {
       title: 'Poddium',
       description: 'Venha entrar em forma doido!',
       phone: '(74) 9 9915-7797',
-      latitude: new Decimal(0),
-      longitude: new Decimal(0),
+      latitude: new Decimal(-9.4227181),
+      longitude: new Decimal(-40.5025375),
     })
 
     vi.useFakeTimers()
@@ -76,5 +76,25 @@ describe('Check-in Use Case', () => {
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
+  })
+
+  it('should be able to check in on distant gym', async () => {
+    gymsRepository.items.push({
+      id: 'gym-02',
+      title: 'Academia de Mazinha',
+      description: 'Venha entrar em forma Malucão!',
+      phone: '(74) 9 9915-7797',
+      latitude: new Decimal(-9.5288152),
+      longitude: new Decimal(-40.6686037),
+    })
+
+    await expect(() =>
+      sut.execute({
+        gymId: 'gym-02',
+        userId: 'user-01',
+        userLatitude: -9.4227181,
+        userLongitude: -40.5025375,
+      }),
+    ).rejects.toBeInstanceOf(Error)
   })
 })
